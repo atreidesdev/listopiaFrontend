@@ -1,0 +1,30 @@
+.inputContainer {
+    position: relative;
+    display: flex;
+}
+
+.field {
+    width: 100%;
+    padding: 4px;
+    box-sizing: border-box;
+    border-radius: 7px;
+    border: 1px solid #7199d9;
+    outline: none;
+}
+
+.field:focus-within{
+    border: 1px solid #082961;
+}
+
+.toggleButton {
+    background: none;
+    outline: none;
+    border: none;
+    position: absolute;
+    background: white;
+    overflow: hidden;
+    padding: 0 4px;
+    right: 3px;
+    top: 50%;
+    transform: translateY(-50%);
+}

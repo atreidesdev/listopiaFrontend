@@ -1,0 +1,12 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    gap: 0.5rem;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}

@@ -1,0 +1,22 @@
+.navItem {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.navLink {
+    text-decoration: none;
+    padding: 4px 8px;
+    font-size: 20px;
+    color: var(--color-lightest);
+    white-space: nowrap;
+}
+
+.active {
+    border-bottom: 1px solid var(--color-medium);
+}
+
+

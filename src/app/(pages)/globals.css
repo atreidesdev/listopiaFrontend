@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Chewy&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+:root {
+    --color-lightest: #EDEDF7;
+    --color-light: #CCCDEB;
+    --color-light-medium: #ABADE4;
+    --color-medium: #898CE2;
+    --color-medium-dark: #7477D3;
+    --color-dark-medium: #6467C2;
+    --color-dark: #575AB2;
+    --color-darker: #51549D;
+    --color-darkest: #4E5088;
+    --color-extra-dark: #4A4C76;
+
+}
+
+.body {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    background-color: var(--color-lightest);
+}
+
+*{
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}

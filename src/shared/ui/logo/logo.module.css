@@ -1,0 +1,13 @@
+.logo{
+    font-family: "Chewy", serif;
+    font-weight: 400;
+    font-style: normal;
+    text-decoration: none;
+    padding: 4px 8px;
+    font-size: 20px;
+    color: var(--color-lightest);
+    white-space: nowrap;
+}
+.active{
+    color: var(--color-medium);
+}
