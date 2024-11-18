@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
-import styles from './navitem.module.css';
+import styles from './navItem.module.css';
 
 type Route = {
   route: string;

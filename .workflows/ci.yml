@@ -1,0 +1,35 @@
+stages:
+  - install
+  - build
+  - validate
+
+image: node:20
+
+default:
+  cache:
+    key:
+      files:
+        - package-lock.json
+
+install:
+  stage: install
+  script:
+    - npm ci
+
+build:
+  stage: build
+  script:
+    - npm run build
+  dependencies:
+    - install
+  artifacts:
+    paths:
+      - .next/
+
+validate:
+  stage: validate
+  script:
+    - npm run lint
+  dependencies:
+    - install
+    - build
