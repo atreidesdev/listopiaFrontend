@@ -1,0 +1,20 @@
+.filters {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    color: var(--color-extra-dark);
+}
+
+.filterContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.filterContainer input[type="checkbox"] {
+    accent-color: var(--color-extra-dark);
+}
+
+.filterContainer input[type="checkbox"]:checked {
+    background-color: var(--color-extra-dark);
+    color: var(--color-extra-dark);
+}

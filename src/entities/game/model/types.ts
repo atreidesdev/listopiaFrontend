@@ -1,9 +1,9 @@
 import { AgeRatingType } from '@/entities/ageRating/model/types';
 import { Developer } from '@/entities/developer/model/types';
-import { Genre } from '@/entities/genre/model/types';
+import { GenreProps } from '@/entities/genre/model/types';
 import { Platform } from '@/entities/platform/model/types';
 import { Publisher } from '@/entities/publisher/model/types';
-import { Theme } from '@/entities/theme/model/types';
+import { ThemeProps } from '@/entities/theme/model/types';
 
 type GameStatus =
   | 'announced'
@@ -13,7 +13,7 @@ type GameStatus =
   | 'cancelled'
   | 'unknown';
 
-export type Game = {
+export type GameProps = {
   id: number;
   createdAt: string;
   updatedAt: string;
@@ -27,8 +27,8 @@ export type Game = {
   rating: number | null;
   links: string | null;
   translations: string | null;
-  genres?: Genre[];
-  themes?: Theme[];
+  genres: GenreProps[];
+  themes: ThemeProps[];
   developers?: Developer[];
   platforms?: Platform[];
   publishers?: Publisher[];

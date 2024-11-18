@@ -11,3 +11,7 @@
 .active{
     color: var(--color-medium);
 }
+
+.logo:hover{
+    scale: 1.05;
+}

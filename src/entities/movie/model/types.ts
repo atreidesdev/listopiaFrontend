@@ -1,8 +1,8 @@
 import { AgeRatingType } from '@/entities/ageRating/model/types';
-import { Genre } from '@/entities/genre/model/types';
+import { GenreProps } from '@/entities/genre/model/types';
 import { Person } from '@/entities/person/model/types';
 import { Studio } from '@/entities/studio/model/types';
-import { Theme } from '@/entities/theme/model/types';
+import { ThemeProps } from '@/entities/theme/model/types';
 
 type MovieType = 'live_action' | 'anime' | 'animation';
 
@@ -16,7 +16,7 @@ export type MovieStatus =
   | 'cancelled'
   | 'unknown';
 
-export type Movie = {
+export type MovieProps = {
   id: number;
   createdAt: string;
   updatedAt: string;
@@ -34,8 +34,8 @@ export type Movie = {
   rating: number | null;
   links: string | null;
   translations: string | null;
-  genres?: Genre[];
-  themes?: Theme[];
+  genres: GenreProps[];
+  themes: ThemeProps[];
   directors?: Person[];
   studios?: Studio[];
 };

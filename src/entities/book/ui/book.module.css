@@ -1,0 +1,42 @@
+.book {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.book h2 {
+    font-size: 1rem;
+    margin: 0;
+}
+
+.book h1 {
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    gap: 5px;
+}
+
+.infoRow {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.infoRow > h2:nth-child(1) {
+    width: 150px;
+    text-align: left;
+}
+
+.infoRow h2:nth-child(2) {
+    flex-grow: 1;
+    text-align: left;
+    width: 240px;
+}

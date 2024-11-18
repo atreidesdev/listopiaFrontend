@@ -1,7 +1,7 @@
 .navbar {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     margin: auto;
     padding: 0;
     background: var(--color-extra-dark)
@@ -14,7 +14,6 @@
     gap: 10px;
     margin-bottom: 6px;
     align-items: center;
-    padding-inline-start: 20%;
 
 }
 .navbarRight {
@@ -22,7 +21,6 @@
     flex-direction: row;
     list-style: none;
     gap: 10px;
-    padding-inline-end: 20%;
     margin-bottom: 6px;
     align-items: center;
 }

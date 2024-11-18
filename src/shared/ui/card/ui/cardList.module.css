@@ -1,0 +1,28 @@
+.cardList {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    max-width: 870px;
+    justify-content: flex-start;
+    align-content: flex-start;
+    align-items: flex-start;
+}
+
+@media (max-width: 1200px) {
+    .cardList {
+        max-width: 662px;
+    }
+}
+
+@media (max-width: 960px) {
+    .cardList {
+        max-width: 442px;
+    }
+}
+
+@media (max-width: 720px) {
+    .cardList {
+        max-width: 202px;
+    }
+}

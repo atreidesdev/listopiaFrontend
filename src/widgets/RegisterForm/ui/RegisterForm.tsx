@@ -7,6 +7,7 @@ import { InputFieldProps } from '@/shared/ui/inputField/inputField';
 import * as Sentry from '@sentry/nextjs';
 import { useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
+import { Loader } from '@/shared/ui/loader/loader';
 
 type RegisterFormValues = {
   username: string;
@@ -30,9 +31,10 @@ export const RegisterForm = () => {
         authStore.setTokens(response.access_token, response.refresh_token);
         window.location.href = '/';
       } else {
-        setError('Invalid response from server');
+        setError(response?.error || 'Неверный ответ от сервера');
       }
     } catch (error) {
+      setError('Ошибка регистрации');
       Sentry.captureException(error, { level: 'error' });
     } finally {
       setLoading(false);
@@ -42,42 +44,42 @@ export const RegisterForm = () => {
   const fields: Omit<InputFieldProps<RegisterFormValues>, 'control'>[] = [
     {
       name: 'username',
-      placeholder: 'Enter your username',
+      placeholder: 'Введите ваше имя пользователя',
       type: 'text',
       rules: {
-        required: 'Username is required',
+        required: 'Имя пользователя обязательно',
         minLength: {
           value: 3,
-          message: 'Username must be at least 3 characters long',
+          message: 'Имя пользователя должно быть не менее 3 символов',
         },
       },
     },
     {
       name: 'email',
-      placeholder: 'Enter your email',
+      placeholder: 'Введите ваш email',
       type: 'email',
       rules: {
-        required: 'Email is required',
+        required: 'Email обязателен',
         pattern: {
           value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-          message: 'Please enter a valid email address',
+          message: 'Введите корректный email',
         },
       },
     },
     {
       name: 'password',
       type: 'password',
-      placeholder: 'Enter your password',
+      placeholder: 'Введите пароль',
       rules: {
-        required: 'Password is required',
+        required: 'Пароль обязателен',
         minLength: {
           value: 8,
-          message: 'Password must be at least 8 characters long',
+          message: 'Пароль должен содержать минимум 8 символов',
         },
         pattern: {
           value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
           message:
-            'Password must contain uppercase, lowercase letters, and numbers',
+            'Пароль должен содержать заглавные и строчные буквы, а также цифры',
         },
       },
     },
@@ -85,21 +87,16 @@ export const RegisterForm = () => {
 
   const buttons: ButtonProps[] = [
     {
-      name: 'Register',
+      name: 'Зарегистрироваться',
       type: 'submit',
       variant: 'primary',
-    },
-    {
-      name: 'Reset',
-      type: 'reset',
-      variant: 'secondary',
     },
   ];
 
   return (
     <>
       <Form fields={fields} onSubmit={onSubmit} buttons={buttons} />
-      {loading && <p>Registering...</p>}
+      {loading && <Loader />}
       {error && <p className="error">Ошибка регистрации: {error}</p>}
     </>
   );

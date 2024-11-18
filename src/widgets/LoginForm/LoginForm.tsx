@@ -7,6 +7,8 @@ import { InputFieldProps } from '@/shared/ui/inputField/inputField';
 import * as Sentry from '@sentry/nextjs';
 import { useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
+import styles from './LoginForm.module.css';
+import { Loader } from '@/shared/ui/loader/loader';
 
 type LoginFormValues = {
   username: string;
@@ -28,13 +30,12 @@ export const LoginForm = () => {
 
       if (response?.access_token && response?.refresh_token) {
         authStore.setTokens(response.access_token, response.refresh_token);
-        console.log('Login successful:', response);
         window.location.href = '/';
       } else {
-        setError('Invalid response from server');
+        setError(response?.error || 'Неверный ответ от сервера');
       }
     } catch (error) {
-      setError('Login error');
+      setError('Ошибка входа');
       Sentry.captureException(error, { level: 'error' });
     } finally {
       setLoading(false);
@@ -44,29 +45,29 @@ export const LoginForm = () => {
   const fields: Omit<InputFieldProps<LoginFormValues>, 'control'>[] = [
     {
       name: 'email',
-      placeholder: 'Enter your email',
+      placeholder: 'Введите ваш email',
       rules: {
-        required: 'Email is required',
+        required: 'Email обязателен',
         pattern: {
           value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-          message: 'Please enter a valid email address',
+          message: 'Введите корректный email',
         },
       },
     },
     {
       name: 'password',
       type: 'password',
-      placeholder: 'Enter your password',
+      placeholder: 'Введите ваш пароль',
       rules: {
-        required: 'Password is required',
+        required: 'Пароль обязателен',
         minLength: {
           value: 8,
-          message: 'Password must be at least 8 characters long',
+          message: 'Пароль должен содержать минимум 8 символов',
         },
         pattern: {
           value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
           message:
-            'Password must contain uppercase, lowercase letters, and numbers',
+            'Пароль должен содержать заглавные и строчные буквы, а также цифры',
         },
       },
     },
@@ -74,22 +75,17 @@ export const LoginForm = () => {
 
   const buttons: ButtonProps[] = [
     {
-      name: 'Login',
+      name: 'Войти',
       type: 'submit',
       variant: 'primary',
-    },
-    {
-      name: 'Reset',
-      type: 'reset',
-      variant: 'secondary',
     },
   ];
 
   return (
-    <>
+    <div className={styles.LoginForm}>
       <Form fields={fields} onSubmit={onSubmit} buttons={buttons} />
-      {loading && <p>Logging in...</p>}
+      {loading && <Loader />}
       {error && <p className="error">Ошибка входа: {error}</p>}
-    </>
+    </div>
   );
 };

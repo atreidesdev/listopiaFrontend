@@ -1,10 +1,11 @@
 import { apiGet } from '@/shared/api/fetch';
 import { Metadata } from 'next';
+import * as Sentry from '@sentry/nextjs';
 
 export const revalidate = 60;
 export const dynamicParams = true;
 
-interface Collection {
+type Collection = {
   id: number;
   createdAt: Date;
   updatedAt: Date;
@@ -14,11 +15,11 @@ interface Collection {
   description: string;
   userId: number;
   visibility: string;
-}
+};
 
-interface PageProps {
+type PageProps = {
   params: { id: string };
-}
+};
 
 export async function generateMetadata({
   params,
@@ -33,7 +34,9 @@ export async function generateMetadata({
       };
     }
   } catch (error) {
-    console.error('Ошибка загрузки метаданных для коллекции:', error);
+    Sentry.captureException(error);
+
+    throw new Error('Ошибка загрузки метаданных для коллекции:');
   }
 
   return {
@@ -49,7 +52,7 @@ export default async function CollectionByIdPage({ params }: PageProps) {
   try {
     collectionData = await apiGet<Collection>(`collection/${id}`);
   } catch (error) {
-    console.error('Ошибка загрузки данных коллекции:', error);
+    Sentry.captureException(error);
   }
 
   return (
@@ -71,7 +74,7 @@ export async function generateStaticParams() {
       id: collection.id.toString(),
     }));
   } catch (error) {
-    console.error('Ошибка при получении путей для коллекций:', error);
+    Sentry.captureException(error);
     return [];
   }
 }

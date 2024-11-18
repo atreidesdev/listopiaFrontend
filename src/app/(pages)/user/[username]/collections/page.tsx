@@ -1,30 +1,28 @@
 import { Collection } from '@/entities/collection/model/types';
 import { apiGet } from '@/shared/api/fetch';
 import { Metadata } from 'next';
+import * as Sentry from '@sentry/nextjs';
 
 export const revalidate = 60;
 export const dynamicParams = true;
 
-interface PageProps {
+type PageProps = {
   params: { username: string };
-}
+};
 
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { username } = params;
   try {
-    let data: Collection[] | null;
-
-    data = await apiGet<Collection[]>(`collection/${username}`);
-
+    const data = await apiGet<Collection[]>(`collection/${username}`);
     if (data) {
       return {
         title: username + 'Collections',
       };
     }
   } catch (error) {
-    console.error('Error fetching metadata:', error);
+    Sentry.captureException(error);
   }
 
   return {
@@ -35,15 +33,13 @@ export async function generateMetadata({
 
 export default async function CollectionByUsernamePage({ params }: PageProps) {
   const { username } = params;
-  let data: Collection[] | null = null;
+  let data: Collection[] | null;
 
   try {
     data = await apiGet<Collection[]>(`collection/${username}`);
-
-    console.log(data);
   } catch (error) {
-    console.error('Error fetching data:', error);
     data = null;
+    Sentry.captureException(error);
   }
 
   return (

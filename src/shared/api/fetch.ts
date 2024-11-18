@@ -1,6 +1,7 @@
 import authStore from '@/shared/auth/authStore';
 import { API_URL } from '@/shared/constants';
 import { Fetches } from '@siberiacancode/fetches';
+import * as Sentry from '@sentry/nextjs';
 
 type PendingRequest = {
   resolve: (value: string | null) => void;
@@ -42,6 +43,8 @@ const refreshAuthToken = async (): Promise<string | null> => {
     pendingRequests.forEach(({ reject }) => reject(error));
     pendingRequests = [];
     authStore.clearTokens();
+    Sentry.captureException(error);
+
     throw error;
   } finally {
     isRefreshing = false;
@@ -124,6 +127,7 @@ export const apiGet = async <T>(
       requestConfig._retry = true;
       return handleAuthError({ ...requestConfig, method: 'GET', url });
     }
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -145,6 +149,7 @@ export const apiPost = async <T>(
       requestConfig._retry = true;
       return handleAuthError({ ...requestConfig, method: 'POST', url, body });
     }
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -165,6 +170,8 @@ export const apiDelete = async <T>(
       requestConfig._retry = true;
       return handleAuthError({ ...requestConfig, method: 'DELETE', url });
     }
+    Sentry.captureException(error);
+
     throw error;
   }
 };
@@ -187,6 +194,8 @@ export const apiPut = async <T>(
       requestConfig._retry = true;
       return handleAuthError({ ...requestConfig, method: 'PUT', url, body });
     }
+    Sentry.captureException(error);
+
     throw error;
   }
 };

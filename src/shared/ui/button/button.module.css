@@ -1,7 +1,8 @@
 .button {
     border: none;
-    border-radius: 1rem;
     padding: 4px 8px;
+    background-color: var(--color-extra-dark);
+    color: var(--color-lightest);
 }
 
 .icon{
@@ -9,3 +10,16 @@
     height: 20px;
 }
 
+.primary{
+    border-radius: 5px;
+}
+.button:active  {
+    scale: 1.2;
+}
+
+.button:disabled {
+    background-color: var(--color-dark-medium); /* Например, более светлый оттенок */
+    color: var(--color-lightest); /* Цвет текста для disabled */
+    cursor: not-allowed; /* Указатель изменяется на запрещающий */
+    opacity: 0.5; /* Для визуального обозначения */
+}

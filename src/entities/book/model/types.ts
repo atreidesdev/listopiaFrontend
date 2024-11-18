@@ -1,7 +1,7 @@
 import { AgeRatingType } from '@/entities/ageRating/model/types';
-import { Genre } from '@/entities/genre/model/types';
+import { GenreProps } from '@/entities/genre/model/types';
 import { Person } from '@/entities/person/model/types';
-import { Theme } from '@/entities/theme/model/types';
+import { ThemeProps } from '@/entities/theme/model/types';
 
 export type BookStatus =
   | 'announced'
@@ -12,7 +12,7 @@ export type BookStatus =
   | 'cancelled'
   | 'unknown';
 
-export type Book = {
+export type BookProps = {
   id: number;
   createdAt: string;
   updatedAt: string;
@@ -27,7 +27,7 @@ export type Book = {
   rating: number | null;
   links: string | null;
   translations: string | null;
-  genres: Genre[];
-  themes: Theme[];
+  genres: GenreProps[];
+  themes: ThemeProps[];
   authors: Person[];
 };

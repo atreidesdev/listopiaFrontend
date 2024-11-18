@@ -2,7 +2,6 @@
 import { useStores } from '@/app/store/useStore';
 import { UPLOADS_URL } from '@/shared/constants';
 import { Avatar } from '@/shared/ui/avatar/ui/avatar';
-import { Button } from '@/shared/ui/button/button';
 import { Dropdown } from '@/shared/ui/dropdown/ui/dropdown';
 import { Logo, LogoProps } from '@/shared/ui/logo/logo';
 import { NavItem, NavItemProps } from '@/shared/ui/navItem/navItem';
@@ -48,18 +47,27 @@ const NavBar = ({ logo, leftRoutes = [], rightRoutes = [] }: Props) => {
                 path={path}
                 route={{
                   route: `settings`,
-                  label: 'Settings',
+                  label: 'Настройки',
                 }}
               />,
               <NavItem
                 key="collections"
                 path={path}
                 route={{
-                  route: `/user/${authStore.profileName}/collections`,
-                  label: 'Collections',
+                  route: `user/${authStore.profileName}/collections`,
+                  label: 'Коллекции',
                 }}
               />,
-              <Button key="logout" onClick={handleLogout} name={'Logout'} />,
+              <NavItem
+                path={path}
+                key="logout"
+                route={{
+                  route: '/',
+                  label: 'Выйти',
+                }}
+                shouldHighlightActive={false}
+                onClick={handleLogout}
+              />,
             ]}
             showChildren={true}
           >

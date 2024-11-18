@@ -7,6 +7,10 @@
     font-style: normal;
 }
 
+.navItem:hover .navLink{
+    scale: 1.05;
+}
+
 .navLink {
     text-decoration: none;
     padding: 4px 8px;

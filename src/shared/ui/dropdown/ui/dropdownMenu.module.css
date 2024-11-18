@@ -18,7 +18,7 @@
 
 @media (min-width: 769px) {
     .menu {
-        padding: 4px 8px;
+        padding: 4px 8px 16px 8px;
         border-radius: 5px;
         position: absolute;
         visibility: hidden;

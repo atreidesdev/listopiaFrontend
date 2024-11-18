@@ -1,4 +1,5 @@
-import {apiPost} from '@/shared/api/fetch';
+import { apiPost } from '@/shared/api/fetch';
+import * as Sentry from '@sentry/nextjs';
 
 type Login = {
   email: string;
@@ -10,6 +11,7 @@ type Register = {
 } & Login;
 
 type AuthResponse = {
+  error?: string;
   access_token: string;
   refresh_token: string;
 };
@@ -20,7 +22,7 @@ export const login = async ({ email, password }: Login) => {
   try {
     return await apiPost<AuthResponse>('auth/login', requestBody);
   } catch (error) {
-    console.error('Register failed:', error);
+    Sentry.captureException(error);
     throw error;
   }
 };
@@ -31,7 +33,7 @@ export const register = async ({ email, username, password }: Register) => {
   try {
     return await apiPost<AuthResponse>('auth/register', requestBody);
   } catch (error) {
-    console.error('Register failed:', error);
+    Sentry.captureException(error);
     throw error;
   }
 };

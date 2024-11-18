@@ -1,8 +1,13 @@
 'use client';
 import React from 'react';
+import { StoreWrapper } from '@/app/store/provider';
 
 const SettingsPage = () => {
-  return <div></div>;
+  return (
+    <StoreWrapper>
+      <div></div>
+    </StoreWrapper>
+  );
 };
 
 export default SettingsPage;

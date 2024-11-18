@@ -10,13 +10,20 @@ type Route = {
 export type NavItemProps = {
   route: Route;
   path: string;
+  onClick?: () => void;
+  shouldHighlightActive?: boolean;
 };
 
-export const NavItem = ({ route, path }: NavItemProps) => {
-  const isActive = path.startsWith(route.route);
+export const NavItem = ({
+  route,
+  path,
+  onClick,
+  shouldHighlightActive = true,
+}: NavItemProps) => {
+  const isActive = shouldHighlightActive && path.includes(route.route);
 
   return (
-    <li className={styles.navItem}>
+    <li className={styles.navItem} onClick={onClick}>
       <Link
         href={`/${route.route}`}
         className={`${styles.navLink} ${isActive ? styles.active : ''}`}

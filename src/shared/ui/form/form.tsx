@@ -14,7 +14,11 @@ export const Form = <T extends FieldValues>({
   onSubmit,
   buttons,
 }: FormProps<T>) => {
-  const { handleSubmit, control } = useForm<T>();
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<T>();
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
@@ -23,7 +27,11 @@ export const Form = <T extends FieldValues>({
       ))}
       <div className={styles.buttonContainer}>
         {buttons.map((buttonProps, index) => (
-          <Button key={index} {...buttonProps} />
+          <Button
+            key={index}
+            {...buttonProps}
+            disabled={Object.keys(errors).length > 0}
+          />
         ))}
       </div>
     </form>

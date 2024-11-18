@@ -1,18 +1,19 @@
 import { apiGet } from '@/shared/api/fetch';
 import { Metadata } from 'next';
+import * as Sentry from '@sentry/nextjs';
 
 export const revalidate = 60;
 export const dynamicParams = true;
 
-interface UserProfile {
+type UserProfile = {
   username: string;
   profileName?: string;
   avatarPath: string;
-}
+};
 
-interface PageProps {
+type PageProps = {
   params: { username: string };
-}
+};
 
 export async function generateMetadata({
   params,
@@ -27,7 +28,7 @@ export async function generateMetadata({
       };
     }
   } catch (error) {
-    console.error('Error fetching user metadata:', error);
+    Sentry.captureException(error);
   }
 
   return {
@@ -43,7 +44,7 @@ export default async function UserByUsernamePage({ params }: PageProps) {
   try {
     userData = await apiGet<UserProfile>(`user/profile/${username}`);
   } catch (error) {
-    console.error('Error fetching user data:', error);
+    Sentry.captureException(error);
   }
 
   return (
@@ -66,7 +67,7 @@ export async function generateStaticParams() {
       username: user.username,
     }));
   } catch (error) {
-    console.error('Error fetching user paths:', error);
+    Sentry.captureException(error);
     return [];
   }
 }
