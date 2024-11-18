@@ -1,3 +1,13 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
 stages:
   - install
   - build
@@ -14,7 +24,7 @@ default:
 install:
   stage: install
   script:
-    - npm ci
+    - npm install
 
 build:
   stage: build
