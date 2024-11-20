@@ -10,6 +10,7 @@ import {
   ListItemResponse,
 } from '@/widgets/ListItemWidget/model/api';
 import * as Sentry from '@sentry/nextjs';
+import { AddToCollection } from '@/features/AddItemToCollection/ui/AddToCollection';
 
 type ListItemWidgetProps = {
   contentType: 'movie' | 'book' | 'game';
@@ -67,6 +68,7 @@ export const ListItemWidget = ({
         contentId={contentId}
         initialRating={listItemData?.rating?.rating || null}
       />
+      <AddToCollection contentId={contentId} genreType={contentType} />
     </div>
   );
 };

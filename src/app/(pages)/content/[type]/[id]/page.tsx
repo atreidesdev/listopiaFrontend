@@ -8,7 +8,6 @@ import { Metadata } from 'next';
 import { Movie } from '@/entities/movie/ui/movie';
 import * as Sentry from '@sentry/nextjs';
 import { ListItemWidget } from '@/widgets/ListItemWidget/ui/ListItemWidget';
-import { AddToCollection } from '@/features/AddItemToCollection/ui/AddToCollection';
 
 export const revalidate = 60;
 export const dynamicParams = true;
@@ -73,7 +72,6 @@ export default async function ContentByTypeByIdPage({ params }: PageProps) {
           {type === 'movies' && (
             <Movie {...(data as MovieProps)}>
               <ListItemWidget contentType={'movie'} contentId={data.id} />
-              <AddToCollection genreType={'movie'} contentId={data.id} />
             </Movie>
           )}
           {type === 'books' && (

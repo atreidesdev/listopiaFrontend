@@ -20,11 +20,9 @@ export const AddRating = ({
   const [isLoading, setIsLoading] = useState(false);
   const handleRatingChange = useCallback(
     async (newRating: number | null) => {
-      const type = contentType.slice(0, -1);
       setIsLoading(true);
-
       try {
-        await updateRating(type, contentId, { rating: newRating ?? 0 });
+        await updateRating(contentType, contentId, { rating: newRating ?? 0 });
         setRating(newRating ?? 0);
       } catch (error) {
         Sentry.captureException(error);

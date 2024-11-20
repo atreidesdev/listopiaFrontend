@@ -32,7 +32,7 @@ export const updateRating = async (
   payload: { rating: number | null },
 ) => {
   try {
-    await apiPut(`list/movie/1/rating`, payload);
+    await apiPut(`list/${type}/${contentId}/rating`, payload);
   } catch (error) {
     Sentry.captureException(error);
   }

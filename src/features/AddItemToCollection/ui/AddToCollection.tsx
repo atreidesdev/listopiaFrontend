@@ -65,7 +65,7 @@ export const AddToCollection = ({ genreType, contentId }: Props) => {
 
   return (
     <div className={styles.container}>
-      <label htmlFor="collection-select">Выберите коллекцию:</label>
+      <label htmlFor="collection-select">Добавить в коллекцию</label>
       <select
         id="collection-select"
         onChange={handleChange}

@@ -13,8 +13,3 @@
 .filterContainer input[type="checkbox"] {
     accent-color: var(--color-extra-dark);
 }
-
-.filterContainer input[type="checkbox"]:checked {
-    background-color: var(--color-extra-dark);
-    color: var(--color-extra-dark);
-}
