@@ -1,0 +1,26 @@
+.listContainer {
+    display: flex;
+    flex-direction: column;
+    border: #4A4C76 solid 1px;
+    border-radius: 5px;
+    gap: 10px;
+    padding: 10px;
+}
+
+.header{
+    font-size: 24px;
+    margin: 0;
+}
+
+.info{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 14px;
+    padding: 4px 8px;
+    color: var(--color-extra-dark);
+}
+
+.info h3{
+    margin: 0;
+}

@@ -31,7 +31,7 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'atreidesdev-back-5763.twc1.net',
+        hostname: 'atreidesdev-back-6a6f.twc1.net',
         pathname: '/**',
       },
     ],

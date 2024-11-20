@@ -9,12 +9,21 @@ export type InputFieldProps<T extends FieldValues> = {
   name: Path<T>;
   control?: Control<T>;
   placeholder: string;
-  type?: 'text' | 'password' | 'email' | 'number' | 'tel' | 'url' | 'file';
+  type?:
+    | 'text'
+    | 'password'
+    | 'email'
+    | 'number'
+    | 'tel'
+    | 'url'
+    | 'file'
+    | 'select';
   rules: {
     required: string;
     minLength?: { value: number; message: string };
     pattern?: { value: RegExp; message: string };
   };
+  options?: { label: string; value: string }[];
 };
 
 export const InputField = <T extends FieldValues>({

@@ -2,7 +2,7 @@ import { ButtonProps } from '@/shared/ui/button/button';
 import { Form } from '@/shared/ui/form/form';
 import { InputFieldProps } from '@/shared/ui/inputField/inputField';
 import * as Sentry from '@sentry/nextjs';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { Loader } from '@/shared/ui/loader/loader';
 import { createCollection } from '../model/api';
@@ -11,6 +11,7 @@ type CreateCollectionFormValues = {
   name: string;
   description?: string;
   poster: File | null;
+  visibility: 'public' | 'private';
 };
 
 export const CreateCollectionForm = () => {
@@ -31,7 +32,7 @@ export const CreateCollectionForm = () => {
     if (poster) {
       formData.append('poster', poster);
     }
-
+    formData.append('visibility', data.visibility);
     try {
       await createCollection(formData);
       setSuccess(true);
@@ -70,6 +71,18 @@ export const CreateCollectionForm = () => {
           required: '',
         },
       },
+      {
+        name: 'visibility',
+        type: 'select',
+        placeholder: 'Выберите видимость коллекции',
+        options: [
+          { label: 'Публичная', value: 'public' },
+          { label: 'Приватная', value: 'private' },
+        ],
+        rules: {
+          required: 'Выберите видимость коллекции',
+        },
+      },
     ];
 
   const buttons: ButtonProps[] = [
@@ -82,8 +95,6 @@ export const CreateCollectionForm = () => {
 
   return (
     <div>
-      <Form fields={fields} onSubmit={onSubmit} buttons={buttons} />
-
       <div>
         <input
           type="file"
@@ -93,6 +104,7 @@ export const CreateCollectionForm = () => {
         />
         {poster && <p>Выбран файл: {poster.name}</p>}
       </div>
+      <Form fields={fields} onSubmit={onSubmit} buttons={buttons} />
 
       {loading && <Loader />}
       {success && <p style={{ color: 'green' }}>Коллекция успешно создана!</p>}

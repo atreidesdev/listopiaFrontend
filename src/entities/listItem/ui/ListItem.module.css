@@ -3,20 +3,24 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    gap: 10px;
+    width: 350px
 }
 
 .listItem div li a {
     color: var(--color-extra-dark);
-    font-size: 14px
+    font-size: 14px;
+    width: 250px;
+    text-wrap: wrap;
+    box-sizing: border-box;
 }
 
 .title{
-    width: 370px
+    width: 250px
 }
 
 .rating {
     font-size: 14px;
     color: var(--color-extra-dark);
-    width: 20px;
+    width: 63px;
+    padding: 4px 8px;
 }

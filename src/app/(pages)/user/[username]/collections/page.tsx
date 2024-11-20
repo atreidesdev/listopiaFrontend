@@ -10,6 +10,7 @@ import {
 import * as Sentry from '@sentry/nextjs';
 import { useParams } from 'next/navigation';
 import styles from './page.module.css';
+import { UPLOADS_URL } from '@/shared/constants';
 
 const DEFAULT_PAGE = 1;
 const DEFAULT_PAGE_SIZE = 12;
@@ -40,7 +41,9 @@ export default function UserCollectionsPage() {
         const mappedCollections: CardProps[] = data.map((collection) => ({
           id: collection.id,
           type: 'collections',
-          posterPath: collection.posterPath,
+          posterPath: collection.posterPath
+            ? UPLOADS_URL + collection.posterPath
+            : '',
           title: collection.name,
           release: collection.createdAt,
           rating: null,

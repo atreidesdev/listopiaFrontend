@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { ListItem, ListItemProps } from '@/entities/listItem/ui/ListItem';
-import styles from './ListItem.module.css';
+import styles from './List.module.css';
 import { fetchListItems } from '@/entities/listItem/model/api';
 import {
   typeSpecificTranslations,
@@ -54,6 +54,10 @@ export const List = (props: Props) => {
       <h2 className={styles.header}>
         {translatedContentType}: {translatedStatus}
       </h2>
+      <div className={styles.info}>
+        <h3>Название</h3>
+        <h3>Рейтинг</h3>
+      </div>
       <div className={styles.list}>
         {items.map((item) => (
           <ListItem key={item.contentId} {...item} />
