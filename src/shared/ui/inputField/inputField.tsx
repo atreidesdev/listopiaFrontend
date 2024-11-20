@@ -17,13 +17,13 @@ export type InputFieldProps<T extends FieldValues> = {
     | 'tel'
     | 'url'
     | 'file'
-    | 'select';
+    | 'select'; // Added select type
   rules: {
     required: string;
     minLength?: { value: number; message: string };
     pattern?: { value: RegExp; message: string };
   };
-  options?: { label: string; value: string }[];
+  options?: { label: string; value: string }[]; // For select input
 };
 
 export const InputField = <T extends FieldValues>({
@@ -32,6 +32,7 @@ export const InputField = <T extends FieldValues>({
   placeholder,
   type = 'text',
   rules,
+  options,
 }: InputFieldProps<T>) => {
   const [showPassword, setShowPassword] = useState(false);
   const [inputValue, setInputValue] = useState('');
@@ -69,25 +70,46 @@ export const InputField = <T extends FieldValues>({
           name={name}
           control={control}
           rules={rules}
-          render={({ field }) => (
-            <input
-              {...field}
-              value={inputValue}
-              onChange={(e) => {
-                setInputValue(e.target.value);
-                field.onChange(e);
-              }}
-              type={
-                type === 'password'
-                  ? showPassword
-                    ? 'text'
-                    : 'password'
-                  : type
-              }
-              placeholder={placeholder}
-              className={styles.field}
-            />
-          )}
+          render={({ field }) => {
+            if (type === 'select') {
+              return (
+                <select
+                  {...field}
+                  value={inputValue}
+                  onChange={(e) => {
+                    setInputValue(e.target.value);
+                    field.onChange(e);
+                  }}
+                  className={styles.field}
+                >
+                  {options?.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              );
+            }
+            return (
+              <input
+                {...field}
+                value={inputValue}
+                onChange={(e) => {
+                  setInputValue(e.target.value);
+                  field.onChange(e);
+                }}
+                type={
+                  type === 'password'
+                    ? showPassword
+                      ? 'text'
+                      : 'password'
+                    : type
+                }
+                placeholder={placeholder}
+                className={styles.field}
+              />
+            );
+          }}
         />
         {type === 'password' && (
           <Button

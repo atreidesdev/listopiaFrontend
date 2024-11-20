@@ -1,0 +1,35 @@
+.form form{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.inputWrapper {
+    width: 100%;
+    position: relative;
+    margin: 0;
+    text-align: center;
+    overflow: hidden;
+}
+
+.inputFile {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+}
+
+.inputFileButton {
+    padding: 4px 8px;
+    height: 30px;
+    background: var(--color-extra-dark);
+    color: var(--color-lightest);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    cursor: pointer;
+    margin: 0;
+    text-align: center;
+    width: 120px;
+}

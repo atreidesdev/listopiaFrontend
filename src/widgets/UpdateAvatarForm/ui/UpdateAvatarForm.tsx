@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import { updateAvatar } from '@/widgets/UpdateAvatarForm/model/api';
 import * as Sentry from '@sentry/nextjs';
+import styles from './UpdateAvatarForm.module.css';
+import { Button } from '@/shared/ui/button/button';
 
 const UpdateAvatarForm = ({ userId }: { userId: string | number }) => {
   const [avatar, setAvatar] = useState<File | null>(null);
@@ -46,17 +48,26 @@ const UpdateAvatarForm = ({ userId }: { userId: string | number }) => {
   };
 
   return (
-    <div>
+    <div className={styles.form}>
       <form onSubmit={handleSubmit}>
-        <input
-          type="file"
-          onChange={handleFileChange}
-          accept="image/*"
-          disabled={isLoading}
+        <div className={styles.inputWrapper}>
+          <input
+            type="file"
+            id="avatarInput"
+            onChange={handleFileChange}
+            accept="image/*"
+            disabled={isLoading}
+            className={styles.inputFile}
+          />
+          <label htmlFor="avatarInput" className={styles.inputFileButton}>
+            <span>{avatar ? avatar.name : 'Выберите аватар'}</span>
+          </label>
+        </div>
+        <Button
+          type="submit"
+          disabled={isLoading || !avatar}
+          name={'обновить'}
         />
-        <button type="submit" disabled={isLoading || !avatar}>
-          {isLoading ? 'Загрузка...' : 'Обновить аватар'}
-        </button>
       </form>
       {success && <p style={{ color: 'green' }}>Аватар успешно обновлен</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}

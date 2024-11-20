@@ -4,8 +4,8 @@ import { InputFieldProps } from '@/shared/ui/inputField/inputField';
 import * as Sentry from '@sentry/nextjs';
 import React, { useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
-import { Loader } from '@/shared/ui/loader/loader';
 import { createCollection } from '../model/api';
+import styles from './CreateCollectionForm.module.css';
 
 type CreateCollectionFormValues = {
   name: string;
@@ -16,13 +16,10 @@ type CreateCollectionFormValues = {
 
 export const CreateCollectionForm = () => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
   const [poster, setPoster] = useState<File | null>(null);
 
   const onSubmit: SubmitHandler<CreateCollectionFormValues> = async (data) => {
     setLoading(true);
-    setError(null);
 
     const formData = new FormData();
     formData.append('name', data.name);
@@ -35,11 +32,9 @@ export const CreateCollectionForm = () => {
     formData.append('visibility', data.visibility);
     try {
       await createCollection(formData);
-      setSuccess(true);
-      setError(null);
+
       alert('Коллекция успешно создана');
     } catch (error) {
-      setError('Ошибка создания коллекции');
       Sentry.captureException(error, { level: 'error' });
     } finally {
       setLoading(false);
@@ -74,7 +69,7 @@ export const CreateCollectionForm = () => {
       {
         name: 'visibility',
         type: 'select',
-        placeholder: 'Выберите видимость коллекции',
+        placeholder: 'Видимость коллекции ',
         options: [
           { label: 'Публичная', value: 'public' },
           { label: 'Приватная', value: 'private' },
@@ -94,21 +89,24 @@ export const CreateCollectionForm = () => {
   ];
 
   return (
-    <div>
-      <div>
+    <div className={styles.form}>
+      <div className={styles.inputWrapper}>
         <input
           type="file"
+          id="input__file"
+          name="file"
           accept="image/*"
           onChange={handleFileChange}
           disabled={loading}
+          className={styles.inputFile}
         />
-        {poster && <p>Выбран файл: {poster.name}</p>}
+        <label htmlFor="input__file" className={styles.inputFileButton}>
+          <span className={styles.inputFileButtonText}>
+            {poster ? poster.name : 'Выберите постер'}
+          </span>
+        </label>
       </div>
       <Form fields={fields} onSubmit={onSubmit} buttons={buttons} />
-
-      {loading && <Loader />}
-      {success && <p style={{ color: 'green' }}>Коллекция успешно создана!</p>}
-      {error && <p className="error">Ошибка: {error}</p>}
     </div>
   );
 };
