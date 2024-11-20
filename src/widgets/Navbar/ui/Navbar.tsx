@@ -54,7 +54,7 @@ const NavBar = ({ logo, leftRoutes = [], rightRoutes = [] }: Props) => {
                 key="collections"
                 path={path}
                 route={{
-                  route: `user/${authStore.profileName}/collections`,
+                  route: `user/${authStore.username}/collections`,
                   label: 'Коллекции',
                 }}
               />,

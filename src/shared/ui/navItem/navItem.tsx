@@ -12,6 +12,7 @@ export type NavItemProps = {
   path: string;
   onClick?: () => void;
   shouldHighlightActive?: boolean;
+  shouldScaleOnHover?: boolean;
 };
 
 export const NavItem = ({
@@ -19,11 +20,17 @@ export const NavItem = ({
   path,
   onClick,
   shouldHighlightActive = true,
+  shouldScaleOnHover = true,
 }: NavItemProps) => {
   const isActive = shouldHighlightActive && path.includes(route.route);
 
   return (
-    <li className={styles.navItem} onClick={onClick}>
+    <li
+      className={`${styles.navItem} ${
+        shouldScaleOnHover ? styles.hoverScale : ''
+      }`}
+      onClick={onClick}
+    >
       <Link
         href={`/${route.route}`}
         className={`${styles.navLink} ${isActive ? styles.active : ''}`}

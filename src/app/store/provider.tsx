@@ -1,6 +1,6 @@
 'use client';
 import { RootStore } from '@/app/store/rootStore';
-import React, { createContext, ReactNode } from 'react';
+import { createContext, ReactNode } from 'react';
 
 export const StoreContext = createContext(RootStore);
 

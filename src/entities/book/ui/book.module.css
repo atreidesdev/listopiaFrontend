@@ -1,3 +1,10 @@
+.page{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+
 .book {
     display: flex;
     flex-direction: row;

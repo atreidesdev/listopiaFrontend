@@ -1,55 +1,78 @@
-import { Collection } from '@/entities/collection/model/types';
-import { apiGet } from '@/shared/api/fetch';
-import { Metadata } from 'next';
+'use client';
+import { useEffect, useState } from 'react';
+import { CardList } from '@/shared/ui/card/ui/cardList';
+import { CardProps } from '@/shared/ui/card/ui/card';
+import { Pagination } from '@/widgets/Pagination/ui/Pagination';
+import {
+  CollectionResponse,
+  fetchUserCollections,
+} from '@/entities/collection/model/api';
 import * as Sentry from '@sentry/nextjs';
+import { useParams } from 'next/navigation';
+import styles from './page.module.css';
 
-export const revalidate = 60;
-export const dynamicParams = true;
+const DEFAULT_PAGE = 1;
+const DEFAULT_PAGE_SIZE = 12;
 
-type PageProps = {
-  params: { username: string };
-};
+export default function UserCollectionsPage() {
+  const { username }: { username: string } = useParams();
 
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
-  const { username } = params;
-  try {
-    const data = await apiGet<Collection[]>(`collection/${username}`);
-    if (data) {
-      return {
-        title: username + 'Collections',
-      };
-    }
-  } catch (error) {
-    Sentry.captureException(error);
-  }
+  const [collections, setCollections] = useState<CardProps[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(DEFAULT_PAGE);
+  const [pageSize] = useState(DEFAULT_PAGE_SIZE);
 
-  return {
-    title: 'Ошибка загрузки данных',
-    description: 'Не удалось загрузить данные для этой страницы.',
+  const startIndex = (page - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const currentItems = collections.slice(startIndex, endIndex);
+
+  const hasNextPage = collections.length > page * pageSize;
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
   };
-}
 
-export default async function CollectionByUsernamePage({ params }: PageProps) {
-  const { username } = params;
-  let data: Collection[] | null;
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (!username) return;
+        const data: CollectionResponse[] = await fetchUserCollections(username);
+        const mappedCollections: CardProps[] = data.map((collection) => ({
+          id: collection.id,
+          type: 'collections',
+          posterPath: collection.posterPath,
+          title: collection.name,
+          release: collection.createdAt,
+          rating: null,
+        }));
+        setCollections(mappedCollections);
+      } catch (error) {
+        Sentry.captureException(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [username]);
 
-  try {
-    data = await apiGet<Collection[]>(`collection/${username}`);
-  } catch (error) {
-    data = null;
-    Sentry.captureException(error);
+  if (loading) {
+    return <p>Загрузка...</p>;
   }
 
   return (
     <div>
-      <h1>Username: {username} collections</h1>
-      {data ? (
-        <pre>{JSON.stringify(data, null, 2)}</pre>
-      ) : (
-        <p>Ошибка загрузки данных</p>
-      )}
+      <div className={styles.page}>
+        {currentItems.length > 0 ? (
+          <CardList cards={currentItems} />
+        ) : (
+          <p>Нет данных для отображения</p>
+        )}
+        <Pagination
+          currentPage={page}
+          hasNextPage={hasNextPage}
+          onPageChange={handlePageChange}
+        />
+      </div>
     </div>
   );
 }

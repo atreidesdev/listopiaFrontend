@@ -17,8 +17,12 @@ export const Card = (props: CardProps) => {
     ? new Date(props.release).getFullYear()
     : null;
 
+  const prefixedType = ['movies', 'books', 'games'].includes(props.type)
+    ? `content/${props.type}`
+    : props.type;
+
   return (
-    <Link href={props.type + '/' + props.id} className={styles.link}>
+    <Link href={`/${prefixedType}/${props.id}`} className={styles.link}>
       <article className={styles.card}>
         <div className={styles.poster}>
           <Image

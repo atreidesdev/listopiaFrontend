@@ -7,6 +7,8 @@ import { apiGet } from '@/shared/api/fetch';
 import { Metadata } from 'next';
 import { Movie } from '@/entities/movie/ui/movie';
 import * as Sentry from '@sentry/nextjs';
+import { ListItemWidget } from '@/widgets/ListItemWidget/ui/ListItemWidget';
+import { AddToCollection } from '@/features/AddItemToCollection/ui/AddToCollection';
 
 export const revalidate = 60;
 export const dynamicParams = true;
@@ -68,9 +70,22 @@ export default async function ContentByTypeByIdPage({ params }: PageProps) {
     <div>
       {data ? (
         <>
-          {type === 'movies' && <Movie {...(data as MovieProps)} />}
-          {type === 'books' && <Book {...(data as BookProps)} />}
-          {type === 'games' && <Game {...(data as GameProps)} />}
+          {type === 'movies' && (
+            <Movie {...(data as MovieProps)}>
+              <ListItemWidget contentType={'movie'} contentId={data.id} />
+              <AddToCollection genreType={'movie'} contentId={data.id} />
+            </Movie>
+          )}
+          {type === 'books' && (
+            <Book {...(data as BookProps)}>
+              <ListItemWidget contentType={'book'} contentId={data.id} />
+            </Book>
+          )}
+          {type === 'games' && (
+            <Game {...(data as GameProps)}>
+              <ListItemWidget contentType={'game'} contentId={data.id} />
+            </Game>
+          )}
         </>
       ) : (
         <p>Ошибка загрузки данных</p>

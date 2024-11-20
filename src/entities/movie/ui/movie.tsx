@@ -7,6 +7,7 @@ import styles from './movie.module.css';
 import { formatDate } from '@/shared/utils/formatDate';
 import { ReactNode } from 'react';
 import { formatAgeRating } from '@/entities/ageRating/utils/formatAgeRating';
+import { Comments } from '@/widgets/Comments/ui/Comments';
 
 type MovieComponentProps = MovieProps & {
   children?: ReactNode;
@@ -31,7 +32,7 @@ export const Movie = (props: MovieComponentProps) => {
   };
 
   return (
-    <div>
+    <div className={styles.page}>
       <div className={styles.movie}>
         <div className={styles.actions}>
           <div>
@@ -98,6 +99,7 @@ export const Movie = (props: MovieComponentProps) => {
           <h2>{props.description || null}</h2>
         </div>
       </div>
+      <Comments contentId={props.id} contentType={'movies'} />
     </div>
   );
 };

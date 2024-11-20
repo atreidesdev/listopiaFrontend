@@ -23,7 +23,6 @@ export const login = async ({ email, password }: Login) => {
     return await apiPost<AuthResponse>('auth/login', requestBody);
   } catch (error) {
     Sentry.captureException(error);
-    throw error;
   }
 };
 
@@ -34,6 +33,5 @@ export const register = async ({ email, username, password }: Register) => {
     return await apiPost<AuthResponse>('auth/register', requestBody);
   } catch (error) {
     Sentry.captureException(error);
-    throw error;
   }
 };

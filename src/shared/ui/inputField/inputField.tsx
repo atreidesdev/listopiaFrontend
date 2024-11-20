@@ -9,7 +9,7 @@ export type InputFieldProps<T extends FieldValues> = {
   name: Path<T>;
   control?: Control<T>;
   placeholder: string;
-  type?: 'text' | 'password' | 'email' | 'number' | 'tel' | 'url';
+  type?: 'text' | 'password' | 'email' | 'number' | 'tel' | 'url' | 'file';
   rules: {
     required: string;
     minLength?: { value: number; message: string };

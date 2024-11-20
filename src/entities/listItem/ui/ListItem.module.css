@@ -1,0 +1,22 @@
+.listItem {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.listItem div li a {
+    color: var(--color-extra-dark);
+    font-size: 14px
+}
+
+.title{
+    width: 370px
+}
+
+.rating {
+    font-size: 14px;
+    color: var(--color-extra-dark);
+    width: 20px;
+}

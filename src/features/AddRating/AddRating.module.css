@@ -1,0 +1,20 @@
+.ratingContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.input {
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    background: var(--color-extra-dark);
+    color: var(--color-lightest);
+    box-sizing: border-box;
+}
+
+.input::placeholder {
+    color: var(--color-light-medium);
+}

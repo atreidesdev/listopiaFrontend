@@ -1,0 +1,37 @@
+.List {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 10px;
+    color: var(--color-extra-dark);
+}
+
+.ListsContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 800px;
+}
+
+.ListCounts{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    flex-wrap: wrap;
+    border-radius: 10px;
+    border: 1px solid var(--color-extra-dark);
+    padding: 10px;
+    justify-content: space-evenly;
+}
+
+.ListCounts li a {
+    font-size: 14px;
+    color: var(--color-extra-dark);
+}
+
+
+@media (max-width: 800px) {
+    .ListsContainer {
+        max-width: 400px;
+    }
+}

@@ -1,3 +1,10 @@
+.page{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+
 .game {
     display: flex;
     flex-direction: row;

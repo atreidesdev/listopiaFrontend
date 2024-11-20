@@ -21,7 +21,17 @@ const nextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'mc.yandex.ru',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
         hostname: 'aimint.org',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'atreidesdev-back-5763.twc1.net',
         pathname: '/**',
       },
     ],

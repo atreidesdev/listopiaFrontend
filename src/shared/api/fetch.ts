@@ -5,7 +5,7 @@ import * as Sentry from '@sentry/nextjs';
 
 type PendingRequest = {
   resolve: (value: string | null) => void;
-  reject: (error: unknown) => void;
+  reject: (error: Error) => void;
 };
 
 export const fetchesInstance = new Fetches({
@@ -33,17 +33,17 @@ const refreshAuthToken = async (): Promise<string | null> => {
     const { access_token, refresh_token } = await fetchesInstance.post<{
       access_token: string;
       refresh_token: string;
-    }>('/auth/refresh-token', { refreshToken });
+    }>('auth/refresh-token', { refreshToken });
 
     authStore.setTokens(access_token, refresh_token);
     pendingRequests.forEach(({ resolve }) => resolve(access_token));
     pendingRequests = [];
     return access_token;
   } catch (error: unknown) {
-    pendingRequests.forEach(({ reject }) => reject(error));
+    pendingRequests.forEach(({ reject }) => reject(error as Error));
     pendingRequests = [];
     authStore.clearTokens();
-    Sentry.captureException(error);
+    Sentry.captureException(error as Error);
 
     throw error;
   } finally {
@@ -51,8 +51,9 @@ const refreshAuthToken = async (): Promise<string | null> => {
   }
 };
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-const handleAuthError = async (originalRequest: HttpRequest): Promise<any> => {
+const handleAuthError = async (
+  originalRequest: HttpRequest,
+): Promise<unknown> => {
   if (!isRefreshing) {
     isRefreshing = true;
     const newToken = await refreshAuthToken();
@@ -100,7 +101,7 @@ const handleAuthError = async (originalRequest: HttpRequest): Promise<any> => {
   }
 };
 
-const attachToken = (config: Config) => {
+const attachToken = (config: Config): Config => {
   const token = authStore.getToken();
   if (token) {
     config.headers = {
@@ -119,15 +120,15 @@ export const apiGet = async <T>(
   try {
     return await fetchesInstance.get<T>(url, requestConfig);
   } catch (error: unknown) {
-    if (
-      isHttpError(error) &&
-      error.response?.status === 401 &&
-      !requestConfig._retry
-    ) {
+    Sentry.captureException(error as Error);
+    if (!requestConfig._retry) {
       requestConfig._retry = true;
-      return handleAuthError({ ...requestConfig, method: 'GET', url });
+      return handleAuthError({
+        ...requestConfig,
+        method: 'GET',
+        url,
+      }) as Promise<T>;
     }
-    Sentry.captureException(error);
     throw error;
   }
 };
@@ -138,18 +139,20 @@ export const apiPost = async <T>(
   config: Config = {},
 ): Promise<T> => {
   const requestConfig = attachToken({ ...config });
+
   try {
     return await fetchesInstance.post<T>(url, body, requestConfig);
   } catch (error: unknown) {
-    if (
-      isHttpError(error) &&
-      error.response?.status === 401 &&
-      !requestConfig._retry
-    ) {
+    Sentry.captureException(error as Error);
+    if (!requestConfig._retry) {
       requestConfig._retry = true;
-      return handleAuthError({ ...requestConfig, method: 'POST', url, body });
+      return handleAuthError({
+        ...requestConfig,
+        method: 'POST',
+        url,
+        body,
+      }) as Promise<T>;
     }
-    Sentry.captureException(error);
     throw error;
   }
 };
@@ -162,16 +165,15 @@ export const apiDelete = async <T>(
   try {
     return await fetchesInstance.delete<T>(url, requestConfig);
   } catch (error: unknown) {
-    if (
-      isHttpError(error) &&
-      error.response?.status === 401 &&
-      !requestConfig._retry
-    ) {
+    Sentry.captureException(error as Error);
+    if (!requestConfig._retry) {
       requestConfig._retry = true;
-      return handleAuthError({ ...requestConfig, method: 'DELETE', url });
+      return handleAuthError({
+        ...requestConfig,
+        method: 'DELETE',
+        url,
+      }) as Promise<T>;
     }
-    Sentry.captureException(error);
-
     throw error;
   }
 };
@@ -186,22 +188,16 @@ export const apiPut = async <T>(
   try {
     return await fetchesInstance.put<T>(url, body, requestConfig);
   } catch (error: unknown) {
-    if (
-      isHttpError(error) &&
-      error.response?.status === 401 &&
-      !requestConfig._retry
-    ) {
+    Sentry.captureException(error as Error);
+    if (!requestConfig._retry) {
       requestConfig._retry = true;
-      return handleAuthError({ ...requestConfig, method: 'PUT', url, body });
+      return handleAuthError({
+        ...requestConfig,
+        method: 'PUT',
+        url,
+        body,
+      }) as Promise<T>;
     }
-    Sentry.captureException(error);
-
     throw error;
   }
 };
-
-function isHttpError(
-  error: unknown,
-): error is { response?: { status: number } } {
-  return typeof error === 'object' && error !== null && 'response' in error;
-}

@@ -1,0 +1,40 @@
+.commentsContainer {
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 1px solid var(--color-extra-dark);
+    max-width: 600px;
+}
+
+.comment {
+    padding: 10px 10px 0 10px;
+    border: 1px solid var(--color-extra-dark);
+    border-radius: 8px;
+}
+
+.commentHeader {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+}
+
+.username {
+    font-weight: bold;
+}
+
+.createdAt {
+    font-style: italic;
+    color: var(--color-dark);
+}
+
+.commentText {
+    font-size: 14px;
+}
+
+.Messeges{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
